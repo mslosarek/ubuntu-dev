@@ -41,7 +41,9 @@ RUN mkdir -p /home/dev/.ssh && \
   chown -R dev:dev /home/dev/.ssh
 
 USER dev
-RUN  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
 USER root
 
 # Disable password authentication in SSH
@@ -52,19 +54,19 @@ RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/s
 # Allow passwordless sudo
 RUN echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev
 
-# Create workspace directory
-RUN mkdir -p /home/dev/workspace && \
-  chown -R dev:dev /home/dev/workspace
+# Create code directory
+RUN mkdir -p /home/dev/code && \
+  chown -R dev:dev /home/dev/code
 
 # Start SSH server
 RUN mkdir /var/run/sshd
 EXPOSE 22
 
 # Use bash as the default shell
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/zsh", "-c"]
 
 # Set the working directory
-WORKDIR /home/dev/workspace
+WORKDIR /home/dev
 
 COPY startup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/startup.sh

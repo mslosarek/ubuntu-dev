@@ -10,8 +10,8 @@ services:
       - SSH_IMPORT_FROM=${SSH_IMPORT_FROM:-gh}  # Default to GitHub (gh) or use Launchpad (lp)
       - ADDITIONAL_PORTS=${ADDITIONAL_PORTS:-}  # Format: "9000:9000,27017:27017"
     volumes:
-      - dev-workspace:/home/dev/code  # Use a named volume for workspace
+      - dev-code:/home/dev/code  # Use a named volume for code
     restart: unless-stopped
 
 volumes:
-  dev-workspace:
+  dev-code:

@@ -11,6 +11,7 @@ services:
       - ADDITIONAL_PORTS=${ADDITIONAL_PORTS:-}  # Format: "9000:9000,27017:27017"
     volumes:
       - dev-code:/home/dev/code  # Use a named volume for code
+      - /var/run/docker.sock:/var/run/docker.sock  # Mount Docker socket for Docker-in-Docker
     restart: unless-stopped
 
 volumes:
